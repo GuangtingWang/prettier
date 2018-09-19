@@ -1,12 +1,15 @@
 import React, { Component } from 'react'
+import Payments from './Payments';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+
+
 class Header extends Component {
 
 renderContent(){
     switch(this.props.auth){
         case null:
-            return 
+            return <li><a>Loading</a></li>
         case false:
             return (                 
             <li>
@@ -14,9 +17,11 @@ renderContent(){
             </li>
             )
         default:
-            return (
-                <li><a href="/api/logout">Logout</a></li>
-                )
+            return [
+                <li key='1'><Payments /></li>,
+                <li key='3' style={{padding: '0 10px'}}>Credits: {(this.props.auth.credits/100).toFixed(2)}</li>,
+                <li key='2'><a href="/api/logout">Logout</a></li>
+            ];
     }
 }
 

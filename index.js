@@ -8,6 +8,7 @@ const mongoose = require('mongoose');
 
 const cookieSession = require('cookie-session');
 const passport = require('passport');
+const bodyParser = require('body-parser');
 
 // Connect DB
 mongoose.connect(keys.mongoURI, { useNewUrlParser: true });
@@ -20,7 +21,7 @@ require('./services/passport');
 
 // Import routes as a function
 const authRoutes = require('./routes/authRoutes');
-
+const billingRoutes = require('./routes/billingRoutes');
 const app = express(); 
 
 // Set cookie existance time and keys to encrpyt cookie
@@ -30,6 +31,8 @@ app.use(
         keys: [keys.cookieKey]
     })
 )
+//use body parser middleware, assign to request body to req.body
+app.use(bodyParser.json());
 
 // Initialize passport
 app.use(passport.initialize());
@@ -38,6 +41,7 @@ app.use(passport.session());
 
 // Pass app object to routes function
 authRoutes(app);
+billingRoutes(app);
 
 
 
